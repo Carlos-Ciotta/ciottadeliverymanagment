@@ -2,5 +2,3 @@
 streamlit==1.14.0
 Pillow==8.3.2
 requests==2.26.0
-altair==4.1.0
-vegalite==4.0.0
