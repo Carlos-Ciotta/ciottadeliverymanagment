@@ -47,10 +47,9 @@ def put_status(status:str, id:int):
 
     if response.status_code == 200:
         data = response.json()
-        print("Dados da API:", data)
+        return{f"{data}"}
     else:
-        print("Falha na solicitação. Código de status:", response.status_code)
-        print("Conteúdo da resposta:", response.text)
+        return{f"Falha na solicitação. Código de status:{response.status_code}\n Conteúdo da resposta: {response.text}"}
 
 def put_dados(id:int, entrega_i:Entrega):
     url = f'https://api-production-e20e.up.railway.app/entregas/put/{id}'
@@ -76,7 +75,6 @@ def delete_by_id(id:int):
     response = requests.delete(url)
     if response.status_code == 200:
         data = response.json()
-        print("Dados da API:", data)
+        return{f"{data}"}
     else:
-        print("Falha na solicitação. Código de status:", response.status_code)
-        print("Conteúdo da resposta:", response.text)
+        return{f"Falha na solicitação. Código de status:{response.status_code}\n Conteúdo da resposta: {response.text}"}

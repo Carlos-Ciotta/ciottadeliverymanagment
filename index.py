@@ -1,38 +1,33 @@
 import streamlit as st
-from models import Entrega
-from controllers import post
+from controllers import get_all, delete_by_id, put_status
 import requests
-
-
+import pandas as pd
+from PIL import Image
+icon = Image.open('Logo.jpeg')
 st.set_page_config(
     page_title="Ciotta - Delivery Managment",
-    page_icon=":chart_with_upwards_trend:",  # You can use an emoji or a URL to an image
+    layout="wide",
+    page_icon=icon,  # Você pode usar um emoji ou uma URL de uma imagem
 )
-def insere_entrega():
-    st.subheader(f"Inserir Entregas")
-    nome_cliente = st.text_input(f"Nome cliente")
-    rua = st.text_input(f"Rua")
-    bairro = st.text_input(f"Bairro")
-    telefone = st.text_input(f"Telefone")
 
-    if st.button(f"Enviar Entrega"):
-        #entrega_i = Entrega
-        #entrega_i.nome_cliente = nome_cliente
-        #entrega_i.bairro = bairro
-        #entrega_i.telefone = telefone
-        #entrega_i.logradouro = rua
+def insere_entrega():
+    nome_cliente = st.text_input("Nome cliente")
+    rua = st.text_input("Rua")
+    bairro = st.text_input("Bairro")
+    telefone = st.text_input("Telefone")
+
+    if st.button("Enviar Entrega"):
         data = {
             "nome_cliente": nome_cliente,
             "logradouro": rua,
             "bairro": bairro,
             "telefone": telefone,
-            "id":0,
-            "status":"Aguardando",
-            "hora":"NULL",
-            "data":"NULL"
+            "id": 0,
+            "status": "Aguardando",
+            "hora": "NULL",
+            "data": "NULL"
         }
         url = 'https://api-production-e20e.up.railway.app/entregas/post'
-
         response = requests.post(url, json=data)
 
         if response.status_code == 200:
@@ -44,11 +39,51 @@ def insere_entrega():
 
         st.write(f"Resposta do servidor: {response.text}")
 
+def deleta_entrega():
+    id = st.text_input("Id")
+    if st.button("Excluir"):
+        response = delete_by_id(id)
+        st.write(f"Resposta do servidor: {response}")
+
+def atualiza_status():
+    id = st.text_input("ID")
+    status = st.selectbox(
+    "Status Entrega",
+    ("Aguardando", "Em andamento", "Entregue"),
+    index=None,
+    placeholder="Selecione o status",
+    )
+
+    if st.button("Atualizar"):
+        response = put_status(status, id)
+        st.write(f"Resposta do servidor: {response}")
+
+def populate_table():
+    dados = get_all()
+
+    # Criar DataFrame do pandas
+    colunas = ["ID", "Nome Cliente", "Rua", "Bairro", "Telefone", "Status", "Hora", "Data"]
+    df = pd.DataFrame(dados, columns=colunas)
+
+    # Exibir a tabela
+    st.table(df)
+
 def main():
     st.title("Gestão de Entregas - Ciotta")
-    insere_entrega()
 
+    col1, col2, col3 = st.columns(3)
 
+    with col1:
+        insere_entrega()
+
+    with col2:
+        deleta_entrega()
+
+    with col3:
+        atualiza_status()
+
+    with st.container():
+        populate_table()
 
 if __name__ == "__main__":
     main()
