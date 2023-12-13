@@ -1,1 +1,1 @@
-web: streamlit run index.py --server.address 0.0.0.0 --server.port $PORT
+web: streamlit run index.py ---host 0.0.0.0 --port $PORT
