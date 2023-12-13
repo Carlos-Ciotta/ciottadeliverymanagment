@@ -50,8 +50,7 @@ def atualiza_status():
     status = st.selectbox(
     "Status Entrega",
     ("Aguardando", "Em andamento", "Entregue"),
-    index=None,
-    placeholder="Selecione o status",
+    index=None
     )
 
     if st.button("Atualizar"):
@@ -70,17 +69,17 @@ def populate_table():
 
 def main():
     st.title("Gestão de Entregas - Ciotta")
+    with st.container():
+        col1, col2, col3 = st.columns(3)
 
-    col1, col2, col3 = st.columns(3)
+        with col1:
+            insere_entrega()
 
-    with col1:
-        insere_entrega()
+        with col2:
+            deleta_entrega()
 
-    with col2:
-        deleta_entrega()
-
-    with col3:
-        atualiza_status()
+        with col3:
+            atualiza_status()
 
     with st.container():
         populate_table()
