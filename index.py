@@ -29,10 +29,10 @@ def insere_entrega():
         }
         url = 'https://api-production-e20e.up.railway.app/entregas/post'
         response = requests.post(url, json=data)
-        st.session_state["Nome cliente"] = ""
-        st.session_state["Rua"] = ""
-        st.session_state["Bairro"] = ""
-        st.session_state["Telefone"] = ""
+        nome_cliente = ""
+        rua = ""
+        bairro = ""
+        telefone = ""
         if response.status_code == 200:
             data = response.json()
             print("Dados da API:", data)
