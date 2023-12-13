@@ -11,10 +11,10 @@ st.set_page_config(
 )
 
 def insere_entrega():
-    nome_cliente = st.text_input("Nome cliente")
-    rua = st.text_input("Rua")
-    bairro = st.text_input("Bairro")
-    telefone = st.text_input("Telefone")
+    nome_cliente = st.text_input("Nome cliente", key="nome_cliente_key")
+    rua = st.text_input("Rua", key="rua_key")
+    bairro = st.text_input("Bairro", key="bairro_key")
+    telefone = st.text_input("Telefone", key="telefone_key")
 
     if st.button("Enviar Entrega"):
         data = {
@@ -29,7 +29,10 @@ def insere_entrega():
         }
         url = 'https://api-production-e20e.up.railway.app/entregas/post'
         response = requests.post(url, json=data)
-
+        st.text_input("Nome cliente", value="", key="nome_cliente_key")
+        st.text_input("Rua", value="", key="rua_key")
+        st.text_input("Bairro", value="", key="bairro_key")
+        st.text_input("Telefone", value="", key="telefone_key")
         if response.status_code == 200:
             data = response.json()
             print("Dados da API:", data)
@@ -49,8 +52,7 @@ def atualiza_status():
     id = st.text_input("ID")
     status = st.selectbox(
     "Status Entrega",
-    ("Aguardando", "Em andamento", "Entregue"),
-    index=None
+    ("Aguardando", "Em andamento", "Entregue")
     )
 
     if st.button("Atualizar"):
