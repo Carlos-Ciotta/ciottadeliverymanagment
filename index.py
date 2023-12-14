@@ -60,7 +60,7 @@ def populate_table():
     dados = get_all()
 
     # Criar DataFrame do pandas
-    colunas = ["ID", "Nome Cliente", "Rua", "Bairro", "Telefone", "Status", "Hora", "Data"]
+    colunas = ["ID", "Nome Cliente", "Rua", "Bairro", "Telefone", "Status", "Hora", "Data", "Previsão de Entrega"]
     df = pd.DataFrame(dados, columns=colunas)
 
     # Exibir a tabela
