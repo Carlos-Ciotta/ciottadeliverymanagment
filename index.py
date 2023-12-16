@@ -10,12 +10,17 @@ st.set_page_config(
     page_icon=icon,  # Você pode usar um emoji ou uma URL de uma imagem
 )
 
+val = ['Em andamento', 'Aguardando']
+val1 = ['Em andamento']
+val2= ['Aguardando']
 def insere_entrega():
     nome_cliente = st.text_input("Nome cliente", key="nome_cliente_key")
     rua = st.text_input("Rua", key="rua_key")
     bairro = st.text_input("Bairro", key="bairro_key")
     telefone = st.text_input("Telefone", key="telefone_key")
     previsao = st.text_input("Previsão de entrega", key="previsao_key")
+    if len(telefone)==0:
+        telefone = "49911111111"
     if st.button("Enviar Entrega"):
         data = {
             "nome_cliente": nome_cliente,
@@ -44,7 +49,7 @@ def deleta_entrega():
     if st.button("Excluir"):
         response = delete_by_id(id)
         st.write(f"Resposta do servidor: {response}")
-
+        
 def atualiza_status():
     id = st.text_input("ID")
     status = st.selectbox(
@@ -56,14 +61,12 @@ def atualiza_status():
         response = put_status(status, id)
         st.write(f"Resposta do servidor: {response}")
 
-def populate_table():
+def populate_table(valor):
     dados = get_all()
-
-    # Criar DataFrame do pandas
+    
     colunas = ["ID", "Nome Cliente", "Rua", "Bairro", "Telefone", "Status", "Hora", "Data", "Previsão de Entrega"]
-    df = pd.DataFrame(dados, columns=colunas)
-
-    # Exibir a tabela
+    data = pd.DataFrame(dados, columns=colunas)
+    df = data[data['Status'].isin(valor)]
     st.table(df)
 
 def main():
@@ -81,7 +84,8 @@ def main():
             atualiza_status()
 
     with st.container():
-        populate_table()
+        populate_table(val)
+
 
 if __name__ == "__main__":
     main()
