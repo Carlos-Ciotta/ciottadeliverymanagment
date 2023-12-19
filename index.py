@@ -11,7 +11,7 @@ st.set_page_config(
 )
 
 val = ['Em andamento', 'Aguardando']
-val1 = ['Em andamento']
+val1 = ['Entregue']
 val2= ['Aguardando']
 def insere_entrega():
     nome_cliente = st.text_input("Nome cliente", key="nome_cliente_key")
@@ -77,7 +77,7 @@ def populate_table_entregues(valor):
     df_1 = data[data['Status'].isin(valor)]
     df = df_1.tail(20)
     st.table(df)
-    
+
 def main():
     st.title("Gestão de Entregas - Ciotta")
     with st.container():
