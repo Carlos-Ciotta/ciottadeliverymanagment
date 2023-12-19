@@ -69,6 +69,15 @@ def populate_table(valor):
     df = data[data['Status'].isin(valor)]
     st.table(df)
 
+def populate_table_entregues(valor):
+    dados = get_all()
+    
+    colunas = ["ID", "Nome Cliente", "Rua", "Bairro", "Telefone", "Status", "Hora", "Data", "Previsão de Entrega"]
+    data = pd.DataFrame(dados, columns=colunas)
+    df_1 = data[data['Status'].isin(valor)]
+    df = df_1.tail(20)
+    st.table(df)
+    
 def main():
     st.title("Gestão de Entregas - Ciotta")
     with st.container():
@@ -85,6 +94,10 @@ def main():
 
     with st.container():
         populate_table(val)
+    
+    with st.container():
+        if st.button("Ver entregues"):
+            populate_table(val1)
 
 
 if __name__ == "__main__":
