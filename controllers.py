@@ -28,18 +28,17 @@ def get_by_id(id:int):
         print("Conteúdo da resposta:", response.text)
     return data
 
-def post(entrega_i:Entrega):
+def post(data):
     url = 'https://api-production-e20e.up.railway.app/entregas/post'
-    dados = entrega_i.__dict__
+    dados = data
 
     response = requests.post(url, json=dados)
 
     if response.status_code == 200:
         data = response.json()
-        print("Dados da API:", data)
+        return ("Dados da API:", data)
     else:
-        print("Falha na solicitação. Código de status:", response.status_code)
-        print("Conteúdo da resposta:", response.text)
+        return("Falha na solicitação. Código de status:", response.status_code)
 
 def put_status(status:str, id:int):
     url = f'https://api-production-e20e.up.railway.app/entregas/put/s/{id}'
